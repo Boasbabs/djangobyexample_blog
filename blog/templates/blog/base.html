@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "mysite/css/semantic-ui/semantic.min.css" %}" rel="stylesheet">
+    {#    <link href="{% static "css/blog.css" %}" rel="stylesheet">#}
+    <style>
+        #content {
+            padding-top: 2em !important;
+            margin-right: 3em !important;
+            width: auto !important;
+            max-width: 960px !important;
+        }
+    </style>
+</head>
+<body>
+<div id="content" class="ui container">
+
+        {% block content %}
+        {% endblock %}
+
+</div>
+<div class="ui visible inverted right sidebar vertical menu ">
+    <h2 class="ui item header">My sidebar blog</h2>
+    <div class="item">This is my blog.</div>
+</div>
+{% block scripts %}
+    <script src="{% static "mysite/js/jquery.min.js" %}"></script>
+    <script src="{% static "mysite/js/semantic.min.js" %}"></script>
+    <script>
+        $('.ui.sidebar').sidebar('show');
+    </script>
+{% endblock %}
+</body>
+</html>

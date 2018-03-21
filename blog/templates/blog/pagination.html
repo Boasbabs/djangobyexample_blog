@@ -1,0 +1,15 @@
+<div class="ui pagination menu">
+    {% if page.has_previous %}
+        <a class=" item" href="?page={{ page.previous_page_number }}">
+            Previous
+        </a>
+    {% endif %}
+    <div class="active item">
+        Page {{ page.number }} of {{ page.paginator.num_pages }}
+    </div>
+    {% if page.has_next %}
+        <a class=" item" href="?page={{ page.next_page_number }}">
+            Next
+        </a>
+    {% endif %}
+</div>
