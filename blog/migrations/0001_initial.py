@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from django.conf import settings
 import django.utils.timezone
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -16,14 +16,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('title', models.CharField(max_length=250)),
                 ('slug', models.SlugField(max_length=250, unique_for_date='publish')),
                 ('body', models.TextField()),
                 ('publish', models.DateTimeField(default=django.utils.timezone.now)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
-                ('status', models.CharField(choices=[('draft', 'Draft'), ('published', 'Published')], default='draft', max_length=10)),
+                ('status', models.CharField(max_length=10, choices=[('draft', 'Draft'), ('published', 'Published')], default='draft')),
                 ('author', models.ForeignKey(related_name='blog_posts', to=settings.AUTH_USER_MODEL)),
             ],
             options={

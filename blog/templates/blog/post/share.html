@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+{% block title %}Share a post{% endblock %}
+{% block content %}
+    {% if sent %}
+        <div class="ui success message">
+
+            <h1 class="ui header">E-mail successfully sent</h1>
+            <p>
+                "{{ post.title }}" was successfully sent to {{ cd.to }}.
+            </p>
+        </div>
+    {% else %}
+        <h1 class="ui dividing purple header">Share "{{ post.title }}" by e-mail</h1>
+        {#        {% load semanticui %}#}
+        <form action="." method="post" class="ui form">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="eight wide field">
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.errors %}
+                        <div class="ui red small pointing top label ">
+                        {{ field.errors.as_text }}
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {#            <div class="fields">#}
+            {#                <div class="eight wide field">#}
+            {#                    {% render_field form.name %}#}
+            {#                </div>#}
+            {#                <div class="eight wide field">#}
+            {#                    {% render_field form.email %}#}
+            {#                </div>#}
+            {#                <div class="eight wide field">#}
+            {#                    {% render_field form.to %}#}
+            {#                </div>#}
+            {#                <div class="eight wide field">#}
+            {#                    {% render_field form.comments %}#}
+            {#                </div>#}
+            {#            </div>#}
+            <input type="submit" class="ui primary button" value="Send e-mail">
+        </form>
+
+    {% endif %}
+{% endblock %}

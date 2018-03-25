@@ -4,7 +4,8 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link href="{% static "mysite/css/semantic-ui/semantic.min.css" %}" rel="stylesheet">
-    {#    <link href="{% static "css/blog.css" %}" rel="stylesheet">#}
+    <link href="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.css" rel="stylesheet" type="text/css" />
+
     <style>
         #content {
             padding-top: 2em !important;
@@ -28,8 +29,24 @@
 {% block scripts %}
     <script src="{% static "mysite/js/jquery.min.js" %}"></script>
     <script src="{% static "mysite/js/semantic.min.js" %}"></script>
+    <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI-Calendar/76959c6f7d33a527b49be76789e984a0a407350b/dist/calendar.min.js"></script>
     <script>
         $('.ui.sidebar').sidebar('show');
+        $('.menu .item').tab();
+        $('.ui.dropdown').dropdown();
+        $('#cal-date').calendar({
+            type: 'date',
+            monthFirst: false,
+            formatter: {
+                date: function (date, settings) {
+                    if (!date) return '';
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    return month + '/' + day + '/' + year;
+                }
+            }
+        });
     </script>
 {% endblock %}
 </body>
