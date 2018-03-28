@@ -9,18 +9,51 @@
     </p>
     {{ post.body|linebreaks }}
     <div class="ui divider"></div>
-    <p>
-        <a class="ui mini teal button" href="{% url "blog:post_share" post.id %}">
-            Share this post
-        </a>
-        <span class="ui hidden divider"></span>
-        <!-- blog comments counter begins -->
-        {% with comments.count as total_comments  %}
-            <h3>{{ total_comments }} comment {{ total_comments|pluralize }}</h3>
-        {% endwith %}
-    </p>
+    <div class="ui grid">
+        <div class="row">
+            <div class="three wide middle aligned column">
+                <a class="ui icon tiny olive button" href="{% url "blog:post_share" post.id %}">
+                    <i class="share icon"></i>
+                    Share this post
+                </a>
+            </div>
+            <div class="three wide middle aligned column">
+                <!-- blog comments counter begins -->
+                {% with comments.count as total_comments  %}
+                    <h3 class="ui small header"><i class="comments icon"></i> {{ total_comments }} comment {{ total_comments|pluralize }}</h3>
+                {% endwith %}
+            </div>
+        </div>
+        <!-- similar blog post begins -->
+        <div class="row">
+            <div class="eleven wide middle aligned column">
+                <h4 class="ui small dividing header">
+                    <i class="plug icon"></i>
+                    <div class="content">
+                        Similar Posts
+                    </div>
+                </h4>
+                {% for post in similar_posts %}
+                    <a href="{{ post.get_absolute_url }}"><h5>{{ post.title }}</h5></a>
+                    <p>
+                        {{ post.body|truncatewords:10 }}
+                    </p>
+                {% empty %}
+                    <p><i>There are no similar posts yet</i></p>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- similar blog post ends -->
+    </div>
+
     <!-- blog comments begins -->
     <div class="ui comments">
+        <h4 class="ui small dividing teal header">
+            <i class="comments icon"></i>
+            <div class="content">
+                Posts Comments
+            </div>
+        </h4>
         {% for comment in comments %}
             <!-- display comments  -->
             <div class="comment">
@@ -41,8 +74,8 @@
         {% if new_comment %}
             <h3 class="ui small green header">Your comment has been added.</h3>
         {% else %}
-            <!-- display comments  -->
-            <h3 class="ui sub header">Add a new comment</h3>
+            <!-- display comment form  -->
+            <h3 class="ui sub dividing teal header">Add a new comment</h3>
             <form class="ui reply form" action="." method="post">
                 {% csrf_token %}
                 <div class="eight wide field">
