@@ -10,8 +10,34 @@
     {{ post.body|linebreaks }}
     <div class="ui divider"></div>
     <p>
-        <a href="{% url "blog:post_share" post.id %}">
+        <a class="ui mini teal button" href="{% url "blog:post_share" post.id %}">
             Share this post
         </a>
+        <span class="ui hidden divider"></span>
+        {% with comments.count as total_comments  %}
+            <h3>{{ total_comments }} comment {{ total_comments|pluralize }}</h3>
+        {% endwith %}
     </p>
+    {% for comment in comments %}
+        <div class="comment">
+            <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}
+            </p>
+            {{ comment.body | linebreaks }}
+        </div>
+    {% empty %}
+        <p><i>There are no comments yet.</i></p>
+    {% endfor %}
+
+    {% if new_comment %}
+        <h3 class="">Your comment has been added.</h3>
+    {% else %}
+        <h2 class="ui sub header">Add a new comment</h2>
+        <form class="ui form" action="." method="post">
+            {% csrf_token %}
+         {{ comment_form.as_p }}
+            <p><input type="submit" value="Add comment" class="ui blue button"></p>
+        </form>
+    {% endif %}
+
 {% endblock %}

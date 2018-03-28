@@ -20,8 +20,8 @@
                     {{ field.label_tag }} {{ field }}
                     {% if field.errors %}
                         <div class="ui red small pointing top label ">
-                        {{ field.errors.as_text }}
-                    </div>
+                            {{ field.errors.as_text }}
+                        </div>
                     {% endif %}
                 </div>
             {% endfor %}
