@@ -14,30 +14,45 @@
             Share this post
         </a>
         <span class="ui hidden divider"></span>
+        <!-- blog comments counter begins -->
         {% with comments.count as total_comments  %}
             <h3>{{ total_comments }} comment {{ total_comments|pluralize }}</h3>
         {% endwith %}
     </p>
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}
-            </p>
-            {{ comment.body | linebreaks }}
-        </div>
-    {% empty %}
-        <p><i>There are no comments yet.</i></p>
-    {% endfor %}
+    <!-- blog comments begins -->
+    <div class="ui comments">
+        {% for comment in comments %}
+            <!-- display comments  -->
+            <div class="comment">
+                <div class="content">
+                    <h5 class="author">Comment {{ forloop.counter }} by: {{ comment.name }}</h5>
+                    <div class="metadata">
+                        <div class="date">{{ comment.created }}</div>
+                    </div>
+                    <div class="text">
+                        <p>{{ comment.body | linebreaks }}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- end display comments -->
+        {% empty %}
+            <p><i>There are no comments yet.</i></p>
+        {% endfor %}
+        {% if new_comment %}
+            <h3 class="ui small green header">Your comment has been added.</h3>
+        {% else %}
+            <!-- display comments  -->
+            <h3 class="ui sub header">Add a new comment</h3>
+            <form class="ui reply form" action="." method="post">
+                {% csrf_token %}
+                <div class="eight wide field">
+                    {{ comment_form.as_p }}
+                </div>
+                <button type="submit" value="Add comment" class="ui primary submit labeled flu icon button"><i class="icon edit"></i> Add Comment</button>
+            </form>
+        {% endif %}
+        <div class="ui hidden divider"></div>
+    </div>
 
-    {% if new_comment %}
-        <h3 class="">Your comment has been added.</h3>
-    {% else %}
-        <h2 class="ui sub header">Add a new comment</h2>
-        <form class="ui form" action="." method="post">
-            {% csrf_token %}
-         {{ comment_form.as_p }}
-            <p><input type="submit" value="Add comment" class="ui blue button"></p>
-        </form>
-    {% endif %}
 
 {% endblock %}
